@@ -1,0 +1,47 @@
+// This module is generic. Customize it for your API needs.
+using CrewWeb.VehixPlatform.API.GenericMonitoring.Domain.Model.Aggregates;
+using CrewWeb.VehixPlatform.API.GenericMonitoring.Domain.Model.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Extensions;
+
+namespace CrewWeb.VehixPlatform.API.GenericMonitoring.Infrastructure.Persistence.EFC.Configuration.Extensions;
+// Extension methods for configuring the Generic Monitoring module.
+// Modify these rules to map your entities to the database.
+
+
+public static class ModelBuilderExtensions
+{
+    public static void ApplyGenericMonitoringConfiguration(this ModelBuilder builder)
+    {
+        //Monitoring Context ORM Mapping Rules
+        
+        //Failure Entity Configuration
+        builder.Entity<Failure>().HasKey(f => f.Id);
+        builder.Entity<Failure>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Failure>().Property(f => f.SuggestSolution).IsRequired().HasMaxLength(120);
+        //Relations: failure->OdbError
+        builder.Entity<Failure>()
+            .HasOne(f => f.OdbError) //Failure has one Odb Error
+            .WithMany() // Odb Error can be in many failures
+            .HasForeignKey(f=>f.OdbErrorId);
+        //Relations: failure->BadPractice
+        builder.Entity<Failure>()
+            .HasOne(f=> f.BadPractice)//Failure has one Bad Practice
+            .WithMany() // Bad Practice can be in many failures
+            .HasForeignKey(f=> f.BadPracticeId);
+        
+        //Bad Practice Entity relation one-to-one with Failure
+        builder.Entity<BadPractice>().HasKey(b => b.Id);
+        builder.Entity<BadPractice>().Property(b => b.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<BadPractice>().Property(b => b.DescriptionBadPractice).IsRequired().HasMaxLength(120);
+        
+        //Odb Error Entity relation one-to-many with Failure
+        builder.Entity<OdbError>().HasKey(o => o.Id);
+        builder.Entity<OdbError>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<OdbError>().Property(o => o.ErrorCode).IsRequired().HasMaxLength(10);
+        builder.Entity<OdbError>().Property(o => o.ErrorCodeTitle).IsRequired().HasMaxLength(50);
+        builder.Entity<OdbError>().Property(o => o.Type)
+            .HasConversion<string>()
+            .IsRequired().HasMaxLength(50);
+    }
+}

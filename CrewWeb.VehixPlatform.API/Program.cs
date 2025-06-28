@@ -1,16 +1,16 @@
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
-using CrewWeb.VehixPlatform.API.Monitoring.Application.Internal.CommandServices;
-using CrewWeb.VehixPlatform.API.Monitoring.Application.Internal.QueryServices;
-using CrewWeb.VehixPlatform.API.Monitoring.Domain.Repositories;
-using CrewWeb.VehixPlatform.API.Monitoring.Domain.Services;
-using CrewWeb.VehixPlatform.API.Monitoring.Infrastructure.Persistence.EFC.Repositories;
-using CrewWeb.VehixPlatform.API.IAM.Application.Internal.CommandServices;
-using CrewWeb.VehixPlatform.API.IAM.Application.Internal.QueryServices;
-using CrewWeb.VehixPlatform.API.IAM.Domain.Repositories;
-using CrewWeb.VehixPlatform.API.IAM.Domain.Services;
-using CrewWeb.VehixPlatform.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using CrewWeb.VehixPlatform.API.GenericMonitoring.Application.Internal.CommandServices;
+using CrewWeb.VehixPlatform.API.GenericMonitoring.Application.Internal.QueryServices;
+using CrewWeb.VehixPlatform.API.GenericMonitoring.Domain.Repositories;
+using CrewWeb.VehixPlatform.API.GenericMonitoring.Domain.Services;
+using CrewWeb.VehixPlatform.API.GenericMonitoring.Infrastructure.Persistence.EFC.Repositories;
+using CrewWeb.VehixPlatform.API.GenericAuth.Application.Internal.CommandServices;
+using CrewWeb.VehixPlatform.API.GenericAuth.Application.Internal.QueryServices;
+using CrewWeb.VehixPlatform.API.GenericAuth.Domain.Repositories;
+using CrewWeb.VehixPlatform.API.GenericAuth.Domain.Services;
+using CrewWeb.VehixPlatform.API.GenericAuth.Infrastructure.Persistence.EFC.Repositories;
 using CrewWeb.VehixPlatform.API.Shared.Domain.Repositories;
 using CrewWeb.VehixPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using CrewWeb.VehixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -81,7 +81,7 @@ builder.Services.AddSwaggerGen(options =>
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Monitoring Bounded Context
+// Generic Monitoring Bounded Context
 // Repositories
 builder.Services.AddScoped<IBadPracticeRepository, BadPracticeRepository>();
 builder.Services.AddScoped<IOdbErrorRepository, OdbErrorRepository>();
@@ -95,7 +95,7 @@ builder.Services.AddScoped<IBadPracticeQueryService, BadPracticeQueryService>();
 builder.Services.AddScoped<IOdbErrorQueryService, OdbErrorQueryService>();
 builder.Services.AddScoped<IFailureQueryService, FailureQueryService>();
 
-// Identity and Access Management Bounded Context
+// Generic Authentication Bounded Context
 // Repositories
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
